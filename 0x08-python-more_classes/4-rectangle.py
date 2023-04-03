@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-"""3-rectangle, built for Holberton Python project 0x08 task 3.
+"""4-rectangle, built for Holberton Python project 0x08 task 4.
 """
 
 
 class Rectangle:
     """Takes in args for width and height of a rectangle, and contains methods
     for calculation of the area or perimeter.
-    __str__ fuctionality defined below.
+    __str__ and __repr__ fuctionality defined below.
     Args:
         width (int): horizontal dimension of rectangle, defaults to 0
         height (int): vertical dimension of rectangle, defaults to 0
@@ -114,3 +114,10 @@ class Rectangle:
         representation of the rectangle suitable for printing.
         """
         return self._draw_rectangle()
+
+    def __repr__(self):
+        """Allows use of eval().
+        Returns:
+            A string of the code needed to create the instance.
+        """
+        return "Rectangle({:d}, {:d})".format(self.__width, self.__height)
