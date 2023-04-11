@@ -1,37 +1,38 @@
 #!/usr/bin/python3
-"""Defines a class Student."""
+import sys
 
 
-class Student:
-    """Represent a student."""
+def print_status():
+    '''
+        Printing the status of the request
+    '''
+    counter = 0
+    size = 0
+    file_size = 0
+    status_codes = {"200": 0, "301": 0, "400": 0, "401": 0,
+                    "403": 0, "404": 0, "405": 0, "500": 0}
 
-    def __init__(self, first_name, last_name, age):
-        """Initialize a new Student.
-        Args:
-            first_name (str): The first name of the student.
-            last_name (str): The last name of the student.
-            age (int): The age of the student.
-        """
-        self.first_name = first_name
-        self.last_name = last_name
-        self.age = age
+    for l in sys.stdin:
+        line = l.split()
+        try:
+            size += int(line[-1])
+            code = line[-2]
+            status_codes[code] += 1
+        except:
+            continue
+        if counter == 9:
+            print("File size: {}".format(size))
+            for key, val in sorted(status_codes.items()):
+                if (val != 0):
+                    print("{}: {}".format(key, val))
+            counter = 0
+        counter += 1
+    if counter < 9:
+        print("File size: {}".format(size))
+        for key, val in sorted(status_codes.items()):
+            if (val != 0):
+                print("{}: {}".format(key, val))
 
-    def to_json(self, attrs=None):
-        """Get a dictionary representation of the Student.
-        If attrs is a list of strings, represents only those attributes
-        included in the list.
-        Args:
-            attrs (list): (Optional) The attributes to represent.
-        """
-        if (type(attrs) == list and
-                all(type(ele) == str for ele in attrs)):
-            return {k: getattr(self, k) for k in attrs if hasattr(self, k)}
-        return self.__dict__
 
-    def reload_from_json(self, json):
-        """Replace all attributes of the Student.
-        Args:
-            json (dict): The key/value pairs to replace attributes with.
-        """
-        for k, v in json.items():
-            setattr(self, k, v)
+if __name__ == "__main__":
+    print_status()
